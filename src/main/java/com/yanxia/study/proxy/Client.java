@@ -28,41 +28,41 @@ public class Client {
          *              一般写一个该接口的实现类，通常情况下都是匿名内部类，但不是必须的，
          *              此接口的实现类都是随用随写
          */
-        IProducer proxyProducer = (IProducer) Proxy.newProxyInstance(producer.getClass().getClassLoader(),producer.getClass().getInterfaces(),
-        new InvocationHandler(){
-            /**
-             * 作用：执行被代理对象的任何接口都会经过该方法
-             * @param proxy the proxy instance that the method was invoked on代理对象的应用
-             *
-             * @param method the {@code Method} instance corresponding to
-             * the interface method invoked on the proxy instance.  The declaring
-             * class of the {@code Method} object will be the interface that
-             * the method was declared in, which may be a superinterface of the
-             * proxy interface that the proxy class inherits the method through.当前执行的方法
-             *
-             * @param args an array of objects containing the values of the
-             * arguments passed in the method invocation on the proxy instance,
-             * or {@code null} if interface method takes no arguments.
-             * Arguments of primitive types are wrapped in instances of the
-             * appropriate primitive wrapper class, such as
-             * {@code java.lang.Integer} or {@code java.lang.Boolean}.当前执行方法所需的参数
-             *
-             * @return 和被代理方法有相同的返回值
-             * @throws Throwable
-             */
-            @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                //提供增强的代码
-                Object returnValue = null;
-                //1.获取方法执行的参数
-                Float money = (Float)args[0];
-                //2.判断当前方法是不是销售
-                if("saleProduct".equals(method.getName())){
-                    returnValue = method.invoke(producer,money*0.8f);
-                }
-                return returnValue;
-            }
-        });
+        IProducer proxyProducer = (IProducer) Proxy.newProxyInstance(producer.getClass().getClassLoader(), producer.getClass().getInterfaces(),
+                new InvocationHandler() {
+                    /**
+                     * 作用：执行被代理对象的任何接口都会经过该方法
+                     * @param proxy the proxy instance that the method was invoked on代理对象的应用
+                     *
+                     * @param method the {@code Method} instance corresponding to
+                     * the interface method invoked on the proxy instance.  The declaring
+                     * class of the {@code Method} object will be the interface that
+                     * the method was declared in, which may be a superinterface of the
+                     * proxy interface that the proxy class inherits the method through.当前执行的方法
+                     *
+                     * @param args an array of objects containing the values of the
+                     * arguments passed in the method invocation on the proxy instance,
+                     * or {@code null} if interface method takes no arguments.
+                     * Arguments of primitive types are wrapped in instances of the
+                     * appropriate primitive wrapper class, such as
+                     * {@code java.lang.Integer} or {@code java.lang.Boolean}.当前执行方法所需的参数
+                     *
+                     * @return 和被代理方法有相同的返回值
+                     * @throws Throwable
+                     */
+                    @Override
+                    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                        //提供增强的代码
+                        Object returnValue = null;
+                        //1.获取方法执行的参数
+                        Float money = (Float) args[0];
+                        //2.判断当前方法是不是销售
+                        if ("saleProduct".equals(method.getName())) {
+                            returnValue = method.invoke(producer, money * 0.8f);
+                        }
+                        return returnValue;
+                    }
+                });
         proxyProducer.saleProduct(10000f);
     }
 }
